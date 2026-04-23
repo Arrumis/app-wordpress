@@ -1,0 +1,10 @@
+data/*
+!data/.gitkeep
+!data/db/
+!data/db/.gitkeep
+!data/html/
+!data/html/.gitkeep
+.env
+.env.local
+.DS_Store
+
