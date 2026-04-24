@@ -2,6 +2,10 @@
 
 WordPress を独立リポジトリとして扱うための新しい正本候補です。実データと秘密情報を repo から切り離し、`.env.local` と `compose.yaml` だけで再構築しやすい形にしています。
 
+## 日本語メモ
+
+GitHub のコミット一覧が英語で分かりにくい場合は、[コミット履歴の日本語メモ](docs/COMMIT_HISTORY_JA.md) を見てください。
+
 ## 起動
 
 ```bash
@@ -42,4 +46,3 @@ Git に含めないもの:
 
 - reverse proxy 連携は別 override file で追加する想定です
 - DB パスワードは必ず `.env.local` で変更してください
-
