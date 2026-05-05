@@ -16,6 +16,9 @@ GitHub のコミット一覧が英語で分かりにくい場合は、[コミッ
 - `APP_PORT` / `DB_PORT` は他サービスと衝突するときだけ変更します
 - 親 repo からまとめて使う場合は、`stack.service.env.local` の `GLOBAL__HOST_DATA_ROOT` や `APP_WORDPRESS__...` を使います
 
+データ配置は旧コンテナと同じ `html` / `db_data` を標準にしています。
+HDD移行で `wp` ディレクトリをそのまま使う場合は、`HOST_DATA_DIR=/path/to/wp` とします。
+
 ## 起動
 
 ```bash
@@ -44,7 +47,7 @@ Git に含めないもの:
 
 - `.env.local`
 - `data/html/`
-- `data/db/`
+- `data/db_data/`
 
 ## データ初期化
 
