@@ -55,6 +55,27 @@ Git に含めないもの:
 ./scripts/init-data-dirs.sh
 ```
 
+## 既存DBの移行
+
+稼働中の MariaDB データディレクトリを `rsync` でそのままコピーすると、コピー先で InnoDB のログ整合性が崩れて起動できないことがあります。
+WordPress の `html` はファイルコピーで引き継げますが、DB は稼働中コンテナから論理 dump を取り、移行先で流し込む方が安全です。
+
+移行元で dump を作ります。コンテナ名やパスワードは移行元環境に合わせます。
+
+```bash
+docker exec wp-mariadb-20250920 sh -lc \
+  'mariadb-dump -uroot -p"$MYSQL_ROOT_PASSWORD" --single-transaction --quick --routines --triggers --events --databases "wp-db"' \
+  > /tmp/wp-db.sql
+```
+
+移行先へ dump を置いたら、次で DB だけを再初期化して取り込みます。
+
+```bash
+./scripts/restore-db-dump.sh --dump /tmp/wp-db.sql --reset-db-data
+```
+
+`--reset-db-data` は `WORDPRESS_DB_DIR` の中身だけを削除します。`HOST_DATA_DIR` の symlink、`html`、アップロード済みファイルは削除しません。
+
 ## メモ
 
 - reverse proxy 連携は別 override file で追加する想定です
