@@ -1,7 +1,7 @@
 # app-wordpress
 
-WordPress と MariaDB を Docker で動かすためのリポジトリです。
-WordPress 本体ファイルとデータベースを指定した保存先へ置けます。
+ブログとデータベースをコンテナで動かすためのリポジトリです。
+ブログ本体のファイルとデータベースを指定した保存先へ置けます。
 
 ## 使い方
 
@@ -13,28 +13,30 @@ docker compose --env-file .env.local up -d
 
 ブラウザで開く画面:
 
-- WordPress: `http://localhost:8080`
+- ブログ画面: `http://localhost:8080`
 
 ## 変更する値
 
 `.env.example` は公開用の見本です。実際の値は `.env.local` に書きます。
 
-- `HOST_DATA_DIR`: WordPress 本体とデータベースを置く場所です。
+- `HOST_DATA_DIR`: ブログ本体とデータベースを置く場所です。
 - `WORDPRESS_DB_PASSWORD` と `MYSQL_PASSWORD`: 同じ値にします。
 - `MYSQL_ROOT_PASSWORD`: データベース管理者のパスワードです。必ず変更します。
+- `APP_BIND_ADDRESS` と `DB_BIND_ADDRESS`: 既定の `127.0.0.1` のまま使い、
+  ブログとデータベースをホスト外部へ直接公開しません。
 - `APP_PORT` と `DB_PORT`: 他サービスと重なるときだけ変えます。
 - `APP_WORDPRESS__...`: 親リポジトリからまとめて設定するときに使います。
 
 ## データ
 
-GitHub に上げるもの:
+公開リポジトリに上げるもの:
 
 - `compose.yaml`
 - `.env.example`
 - `scripts/`
 - `README.md`
 
-GitHub に上げないもの:
+公開リポジトリに上げないもの:
 
 - `.env.local`
 - `data/html/`
@@ -44,8 +46,8 @@ GitHub に上げないもの:
 
 ## 既存データベースの移行
 
-稼働中の MariaDB ディレクトリをそのままコピーすると壊れることがあります。
-WordPress の `html` はファイルコピーで移せますが、データベースはダンプで移す方が安全です。
+稼働中のデータベース用ディレクトリをそのままコピーすると壊れることがあります。
+ブログの`html`はファイルコピーで移せますが、データベースはダンプで移す方が安全です。
 
 ```bash
 docker exec wp-mariadb-20250920 sh -lc \
@@ -59,4 +61,4 @@ docker exec wp-mariadb-20250920 sh -lc \
 ./scripts/restore-db-dump.sh --dump /tmp/wp-db.sql --reset-db-data
 ```
 
-`--reset-db-data` はデータベース保存先だけを消して入れ直します。WordPress の `html` は消しません。
+`--reset-db-data`はデータベース保存先だけを消して入れ直します。ブログの`html`は消しません。
