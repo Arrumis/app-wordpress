@@ -22,6 +22,8 @@ docker compose --env-file .env.local up -d
 - `HOST_DATA_DIR`: WordPress 本体とデータベースを置く場所です。
 - `WORDPRESS_DB_PASSWORD` と `MYSQL_PASSWORD`: 同じ値にします。
 - `MYSQL_ROOT_PASSWORD`: データベース管理者のパスワードです。必ず変更します。
+- `APP_BIND_ADDRESS` と `DB_BIND_ADDRESS`: 既定の `127.0.0.1` のまま使い、
+  WordPress と MariaDB をホスト外部へ直接公開しません。
 - `APP_PORT` と `DB_PORT`: 他サービスと重なるときだけ変えます。
 - `APP_WORDPRESS__...`: 親リポジトリからまとめて設定するときに使います。
 
