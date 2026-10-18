@@ -62,3 +62,9 @@ docker exec wp-mariadb-20250920 sh -lc \
 ```
 
 `--reset-db-data`はデータベース保存先だけを消して入れ直します。ブログの`html`は消しません。
+
+## 認証情報の安全な初期設定
+
+新規導入では `python3 scripts/init-secrets.py` を実行すると、固有のパスワードを `.env.local` に生成します。値は表示せず、ファイル権限を所有者の読み書きに限定します。`python3 scripts/init-secrets.py --check` で空欄・既知の初期値を検査できます。Compose は `docker compose --env-file .env.local up -d` で起動してください。
+
+既存DBがある場合、初期値の自動変更は拒否します。バックアップ後、DB内の認証情報とアプリの接続設定を整合させて変更してください。環境変数の変更だけでは既存DBのパスワードは変わりません。認証情報をGitやログへ保存しないでください。
