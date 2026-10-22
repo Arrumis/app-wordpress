@@ -15,6 +15,24 @@ docker compose --env-file .env.local up -d
 
 - ブログ画面: `http://localhost:8080`
 
+## PHPのセキュリティ更新
+
+2026年10月22日、CVE-2026-109618とCVE-2026-109619への対応として、
+PHP 8.3.36を含む公式の `wordpress:php8.3-apache` イメージを指定しました。
+`compose.yaml` のダイジェストは、実際に修正版PHPを確認したイメージに固定しています。
+既存環境へ適用する場合は、ブログのファイルとDBをバックアップしてから実行します。
+
+```bash
+docker compose --env-file .env.local pull wordpress
+docker compose --env-file .env.local up -d --no-deps wordpress
+docker compose --env-file .env.local exec wordpress php -v
+```
+
+適用後は公開サイトと管理画面へのアクセスも確認してください。
+今後の更新では、新しいイメージのPHPバージョンを確認したうえで、
+`compose.yaml` のダイジェストを更新して再作成します。
+ダイジェストを固定しているため、`pull` だけでは新しい修正は取り込まれません。
+
 ## 変更する値
 
 `.env.example` は公開用の見本です。実際の値は `.env.local` に書きます。
